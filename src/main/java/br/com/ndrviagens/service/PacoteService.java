@@ -1,13 +1,10 @@
 package br.com.ndrviagens.service;
 
-import br.com.ndrviagens.model.Destino;
 import br.com.ndrviagens.model.PacoteViagem;
+import br.com.ndrviagens.repository.DestinoRepository;
 import br.com.ndrviagens.repository.PacoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,16 +13,17 @@ import java.util.Optional;
 @Service
 public class PacoteService {
 
-    @Autowired private PacoteRepository repository;
+    @Autowired private PacoteRepository pacoteRepository;
+    @Autowired private DestinoRepository destinoRepository;
 
     private final BigDecimal porcentagemPromo = BigDecimal.valueOf(0.50);
 
     public List<PacoteViagem> getAllPacotes(){
-        return repository.findAll();
+        return pacoteRepository.findAll();
     }
 
     public List<PacoteViagem> getPromo(){
-        List<PacoteViagem> promocoes = repository.findAll();
+        List<PacoteViagem> promocoes = pacoteRepository.findAll();
         for(PacoteViagem elemento:promocoes){
             BigDecimal precoOriginal = elemento.getPreco();
             elemento.setPrecoPromo(precoOriginal.multiply(porcentagemPromo));
@@ -34,28 +32,32 @@ public class PacoteService {
     }
 
     public List<PacoteViagem> getDestaqueHome(){
-        List<PacoteViagem> promocoes = repository.findAll();
+        List<PacoteViagem> promocoes = pacoteRepository.findAll();
         return promocoes.subList(0, 3);
     }
 
     public PacoteViagem savePacote(PacoteViagem novoPacote){
+        Long idDestino = novoPacote.getDestino().getId();
+        if (idDestino == 0){
+            destinoRepository.save(novoPacote.getDestino());
+        }
         novoPacote.setNome(novoPacote.getNome().toUpperCase());
-        return repository.save(novoPacote);
+        return pacoteRepository.save(novoPacote);
     }
 
     public PacoteViagem deletePacote(long id){
         PacoteViagem pacoteViagem = null;
-        Optional<PacoteViagem> pacoteViagemOptional = repository.findById(id);
+        Optional<PacoteViagem> pacoteViagemOptional = pacoteRepository.findById(id);
         if(pacoteViagemOptional.isPresent()){
             pacoteViagem = pacoteViagemOptional.get();
-            repository.deleteById(id);
+            pacoteRepository.deleteById(id);
         }
         return pacoteViagem;
     }
 
     public PacoteViagem getPacoteById(long id) {
         PacoteViagem pacoteViagem = null;
-        Optional<PacoteViagem> pacoteViagemOptional = repository.findById(id);
+        Optional<PacoteViagem> pacoteViagemOptional = pacoteRepository.findById(id);
         if (pacoteViagemOptional.isPresent()){
             pacoteViagem = pacoteViagemOptional.get();
         }
@@ -63,6 +65,6 @@ public class PacoteService {
     }
 
     public PacoteViagem updatePacote(PacoteViagem pacoteViagem) {
-        return repository.save(pacoteViagem);
+        return pacoteRepository.save(pacoteViagem);
     }
 }
