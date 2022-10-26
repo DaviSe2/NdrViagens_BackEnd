@@ -13,8 +13,10 @@ import java.util.Optional;
 @Service
 public class PacoteService {
 
-    @Autowired private PacoteRepository pacoteRepository;
-    @Autowired private DestinoRepository destinoRepository;
+    @Autowired
+    private PacoteRepository pacoteRepository;
+    @Autowired
+    private DestinoRepository destinoRepository;
 
     private final BigDecimal porcentagemPromo = BigDecimal.valueOf(0.50);
 

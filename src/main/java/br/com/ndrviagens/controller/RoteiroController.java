@@ -1,7 +1,9 @@
 package br.com.ndrviagens.controller;
 
+import br.com.ndrviagens.model.PacoteViagem;
 import br.com.ndrviagens.model.RoteiroViagem;
 import br.com.ndrviagens.repository.RoteiroRepository;
+import br.com.ndrviagens.service.RoteiroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,26 +19,25 @@ import java.util.Optional;
 public class RoteiroController {
 
     @Autowired
-    private RoteiroRepository repository;
+    private RoteiroService service;
 
     @GetMapping
     public ResponseEntity<List<RoteiroViagem>> getAllRoteiroViagem(){
-        return ResponseEntity.ok().body(repository.findAll());
+        return ResponseEntity.ok().body(service.getAllRoteiroViagem());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<RoteiroViagem> getRoteiroById(@PathVariable long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.getRoteiroById(id));
     }
 
     @PostMapping
     public ResponseEntity<RoteiroViagem> saveRoteiro(@RequestBody RoteiroViagem roteiro){
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(roteiro));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.saveRoteiro(roteiro));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<RoteiroViagem> deleteRoteiro(@PathVariable long id){
-        RoteiroViagem roteiroViagem = null;
-        Optional<RoteiroViagem> roteiroViagemOptional = repository.findById(id);
-        if (roteiroViagemOptional.isPresent()){
-            roteiroViagem = roteiroViagemOptional.get();
-            repository.deleteById(id);
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(roteiroViagem);
+        return ResponseEntity.status(HttpStatus.OK).body(service.deleteRoteiro(id));
     }
 }
