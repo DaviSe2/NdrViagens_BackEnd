@@ -25,7 +25,7 @@ public class RoteiroViagem {
     private String nomeRoteiro;
 
     @NotNull
-    @OneToMany
+    @ManyToMany
     @JsonProperty("pacotes_viagens")
     private List<PacoteViagem> pacotesViagens;
 }

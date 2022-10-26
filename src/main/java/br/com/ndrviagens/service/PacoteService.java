@@ -22,13 +22,15 @@ public class PacoteService {
         return pacoteRepository.findAll();
     }
 
-    public List<PacoteViagem> getPromo(){
-        List<PacoteViagem> promocoes = pacoteRepository.findAll();
-        for(PacoteViagem elemento:promocoes){
-            BigDecimal precoOriginal = elemento.getPreco();
-            elemento.setPrecoPromo(precoOriginal.multiply(porcentagemPromo));
+    public PacoteViagem getPromo(long id){
+        PacoteViagem pacoteViagem = null;
+        Optional<PacoteViagem> pacoteViagemOptional = pacoteRepository.findById(id);
+        if (pacoteViagemOptional.isPresent()){
+            pacoteViagem = pacoteViagemOptional.get();
+            BigDecimal precoOriginal = pacoteViagem.getPreco();
+            pacoteViagem.setPrecoPromo(precoOriginal.multiply(porcentagemPromo));
         }
-        return promocoes;
+        return pacoteViagem;
     }
 
     public List<PacoteViagem> getDestaqueHome(){

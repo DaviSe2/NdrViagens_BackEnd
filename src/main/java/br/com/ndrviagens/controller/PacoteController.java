@@ -33,9 +33,9 @@ public class PacoteController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.savePacote(pacote));
     }
 
-    @GetMapping("/promocoes")
-    public ResponseEntity<List<PacoteViagem>> getPromocoes(){
-        return ResponseEntity.ok().body(service.getPromo());
+    @GetMapping("/promocoes/{id}")
+    public ResponseEntity<PacoteViagem> getPromocoes(@PathVariable long id){
+        return ResponseEntity.ok().body(service.getPromo(id));
     }
 
     @GetMapping("/destaques")
