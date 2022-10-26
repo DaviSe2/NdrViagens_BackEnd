@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -28,4 +29,8 @@ public class RoteiroViagem {
     @ManyToMany
     @JsonProperty("pacotes_viagens")
     private List<PacoteViagem> pacotesViagens;
+
+    private BigDecimal precoTotal;
+
+    private BigDecimal precoPromoTotal;
 }

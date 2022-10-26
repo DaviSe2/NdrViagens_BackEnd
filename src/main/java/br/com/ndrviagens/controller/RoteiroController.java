@@ -18,8 +18,7 @@ import java.util.Optional;
 @CrossOrigin("*")
 public class RoteiroController {
 
-    @Autowired
-    private RoteiroService service;
+    @Autowired private RoteiroService service;
 
     @GetMapping
     public ResponseEntity<List<RoteiroViagem>> getAllRoteiroViagem(){
