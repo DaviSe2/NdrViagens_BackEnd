@@ -61,4 +61,8 @@ public class RoteiroService {
         }
         return roteiroViagem;
     }
+
+    public RoteiroViagem updateRoteiro(RoteiroViagem roteiroViagem) {
+        return roteiroRepository.save(roteiroViagem);
+    }
 }

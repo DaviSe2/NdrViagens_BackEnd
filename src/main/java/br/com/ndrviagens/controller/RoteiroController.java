@@ -39,4 +39,9 @@ public class RoteiroController {
     public ResponseEntity<RoteiroViagem> deleteRoteiro(@PathVariable long id){
         return ResponseEntity.status(HttpStatus.OK).body(service.deleteRoteiro(id));
     }
+
+    @PatchMapping
+    public ResponseEntity<RoteiroViagem> updateRoteiro(@RequestBody RoteiroViagem roteiroViagem) {
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateRoteiro(roteiroViagem));
+    }
 }

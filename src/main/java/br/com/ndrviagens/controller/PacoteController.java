@@ -51,6 +51,5 @@ public class PacoteController {
     @PatchMapping
     public ResponseEntity<PacoteViagem> updatePacote(@RequestBody PacoteViagem pacoteViagem) {
         return ResponseEntity.status(HttpStatus.OK).body(service.updatePacote(pacoteViagem));
-
     }
 }
